@@ -1,0 +1,4 @@
+[flake8]
+max-line-length = 110
+extend-ignore = E203
+per-file-ignores="booking_hotels\migrations\versions\b300b7303bdd_add_hashed_password_column.py:F401" .

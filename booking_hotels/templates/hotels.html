@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Список отелей</title>
+</head>
+<body>
+    {% for hotel in hotels %}
+    <dif style="display: flex; margin-bottom: 15px; margin-left: 200px;">
+        <img src="{{ url_for('static', path='images/' + hotel.image_id|string + '.webp') }}"
+        alt="фото отеля" width="250">
+        <dif>
+            <h1>{{hotel.name}}</h1>
+            <h4>{{hotel.location}}</h4>
+        </dif>
+    </dif>
+    {% endfor %}
+</body>
+</html>

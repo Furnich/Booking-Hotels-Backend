@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "Grand Hotel",
+        "location": "New York, USA",
+        "services": {"WiFi": true, "Parking": true, "Pool": false},
+        "rooms_quantity": 50,
+        "image_id": 101
+    },
+    {
+        "id": 2,
+        "name": "Beach Resort",
+        "location": "Miami, USA",
+        "services": {"WiFi": true, "Parking": false, "Pool": true},
+        "rooms_quantity": 100,
+        "image_id": 102
+    },
+    {
+        "id": 3,
+        "name": "Mountain Lodge",
+        "location": "Denver, USA",
+        "services": {"WiFi": true, "Parking": true, "Pool": true},
+        "rooms_quantity": 30,
+        "image_id": 103
+    }
+]

@@ -1,0 +1,33 @@
+[
+    {
+        "id": 1,
+        "hotel_id": 1,
+        "name": "Deluxe Room",
+        "description": "A spacious room with a beautiful view.",
+        "price": 200,
+        "services": {"Air Conditioning": true, "Mini Bar": true},
+        "quantity": 10,
+        "image_id": 201
+    },
+    {
+        "id": 2,
+        "hotel_id": 1,
+        "name": "Standard Room",
+        "description": "A comfortable room for budget travelers.",
+        "price": 100,
+        "services": {"Air Conditioning": true},
+        "quantity": 20,
+        "image_id": 202
+    },
+    {
+        "id": 3,
+        "hotel_id": 2,
+        "name": "Ocean View Suite",
+        "description": "A luxurious suite with an ocean view.",
+        "price": 300,
+        "services": {"Air Conditioning": true, "Balcony": true},
+        "quantity": 5,
+        "image_id": 203
+    }
+]
+
