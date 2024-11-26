@@ -4,12 +4,13 @@ RUN mkdir /booking
 
 WORKDIR /booking
 
-COPY requirements.txt .
+COPY Pipfile Pipfile.lock ./
 
-RUN pip install pip --upgrade
-RUN apt-get update && apt-get install -y netcat-openbsd
-RUN pip install --default-timeout=100 -r requirements.txt
-
+RUN pip install --upgrade pip && \
+    pip install pipenv
+RUN apt-get update && apt-get install -y netcat-traditional
+RUN pipenv install --deploy --ignore-pipfile
+RUN if [ "$(uname)" = "Linux" ]; then echo "Skipping pywin32 installation on Linux"; else pip install pywin32; fi
 COPY . .
 
 RUN chmod a+x /booking/docker/*.sh
