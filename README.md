@@ -48,7 +48,7 @@ The project will be continually enhanced and improved as I learn new methods and
 
 Clone the repository: | Клонируйте репозиторий
 ```
-git clone https://github.com/Furnich/Booking-Hotels-Backend.git
+git clone https://github.com/Rerotsu/Booking-Hotels-Backend.git
 ```
 
 Navigate to the project directory: | *Перейдите в директорию проекта*
