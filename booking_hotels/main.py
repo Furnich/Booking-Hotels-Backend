@@ -9,7 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from fastapi_versioning import VersionedFastAPI, version
+from fastapi_versioning import VersionedFastAPI
 from redis import asyncio as aioredis
 from sqladmin import Admin
 from prometheus_fastapi_instrumentator import Instrumentator
@@ -33,14 +33,17 @@ from booking_hotels.importer.router import router as router_importer
 from booking_hotels.logger import logger
 from booking_hotels.prometheus.router import router as router_errors
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncIterator[None]:
-    redis = aioredis.from_url(f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}", encoding="utf8", decode_responses=True)
+    redis = aioredis.from_url(
+        f"redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}",
+        encoding="utf8", decode_responses=True
+        )
     FastAPICache.init(RedisBackend(redis), prefix="cache")
     yield
 
 app = FastAPI(lifespan=lifespan)
-
 
 
 app.include_router(router_users)
@@ -61,10 +64,13 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["GET","POST","OPTIONS","DELETE","PATH","PUT"],
-    allow_headers=["Content-Type", "Set-Cookie","Access-Control-Allow-Headers","Access-Control-Allow-Origin",
-                    "Authorization"],
+    allow_methods=["GET", "POST", "OPTIONS", "DELETE", "PATH", "PUT"],
+    allow_headers=[
+        "Content-Type", "Set-Cookie",
+        "Access-Control-Allow-Headers",
+        "Access-Control-Allow-Origin", "Authorization"]
 )
+
 
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
@@ -76,18 +82,13 @@ async def add_process_time_header(request: Request, call_next):
         })
     return response
 
-app = VersionedFastAPI(app,
-    version_format='{major}',
-    prefix_format='/v{major}',
-    #description='Greet users with a nice message',
-    #middleware=[
-    #    Middleware(SessionMiddleware, secret_key='mysecretkey')
-    #]
-)
+app = VersionedFastAPI(
+    app, version_format='{major}', prefix_format='/v{major}'
+    )
 
 instrumentator = Instrumentator(
     should_group_status_codes=False,
-    excluded_handlers=[".*admin.*","/metrics"],
+    excluded_handlers=[".*admin.*", "/metrics"],
 )
 instrumentator.instrument(app).expose(app)
 
@@ -99,4 +100,4 @@ admin.add_view(BookingsAdmin)
 admin.add_view(HotelsAdmin)
 admin.add_view(RoomsAdmin)
 
-app.mount("/static",StaticFiles(directory="booking_hotels/static"), "static")
+app.mount("/static", StaticFiles(directory="booking_hotels/static"), "static")

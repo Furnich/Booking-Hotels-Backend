@@ -10,7 +10,7 @@ IncorrectEmailOrPasswordException = HTTPException(
     detail="Неверная почта или пароль"
 )
 
-TokenExpiredException =HTTPException(
+TokenExpiredException = HTTPException(
     status_code=status.HTTP_401_UNAUTHORIZED,
     detail="Время токена истекло"
     )
