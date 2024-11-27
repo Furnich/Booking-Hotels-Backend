@@ -11,6 +11,7 @@ RUN pip install --upgrade pip && \
 RUN apt-get update && apt-get install -y netcat-traditional
 RUN pipenv install --deploy --ignore-pipfile
 RUN if [ "$(uname)" = "Linux" ]; then echo "Skipping pywin32 installation on Linux"; else pip install pywin32; fi
+
 COPY . .
 
 RUN chmod a+x /booking/docker/*.sh

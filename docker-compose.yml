@@ -32,8 +32,8 @@ services:
       - 7777:8000
     volumes:
       - ./docker/wait-for-it.sh:/booking/docker/wait-for-it.sh
-    entrypoint: ["/bin/sh", "-c", "chmod +x /booking/docker/wait-for-it.sh && exec /booking/docker/wait-for-it.sh db:5432 30 -- /booking/docker/app.sh"]
-    
+    entrypoint: ["/bin/sh", "-c", "chmod +x /booking/docker/wait-for-it.sh && exec /booking/docker/wait-for-it.sh db:5432 30 -- /booking/docker/app.sh"]    
+  
   celery:
     build:
       context: .
