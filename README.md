@@ -2,15 +2,15 @@
 
 Содержание
 
-• Описание (#Описание)
+• [Описание](#Описание)
 
-• Функционал (#Функционал)
+• [Функционал](#Функционал)
 
-• Технологии (#Технологии)
+• [Технологии](#Технологии)
 
-• Установка (#Установка)
+• [Установка](#Установка)
 
-• Тесты (#Тесты)
+• [Тесты](#Тесты)
 
 ## Описание
 
@@ -83,7 +83,7 @@ docker comopse up --build
 далее бекенд будет на http://localhost:7777/
 для перехода в API: http://localhost:7777/docs/
 
-##Тесты
+## Тесты
 
 Инструкции по запуску тестов.
 
@@ -92,19 +92,20 @@ docker comopse up --build
 pytest
 ```
 
-#English
 
-##Contents
+# English
 
-• Description(#Description)
+## Contents
 
-• Features(#Features)
+• [Description](#Description)
 
-• Technologies(#Tecnologies)
+• [Features](#Features)
 
-• Installation(#Installation)
+• [Technologies](#Tecnologies)
 
-• Testing(#Testing)
+• [Installation](#Installation)
+
+• [Testing](#Testing)
 
 ## Description
 
@@ -160,15 +161,26 @@ git clone https://github.com/Rerotsu/Booking-Hotels-Backend.git
 ```
 
 Navigate to the project directory:
+
 ```
 cd Booking-Hotels-Backend
 ```
-download packeges
+
+download packeges:
+
 ```
 pip install -r requirements.txt
 ```
 
-##Testing
+for create and start images use:
+
+```
+docker comopse up --build
+```
+Backend part will be locate at http://localhost:7777/
+to switch to the API: http://localhost:7777/docs/
+
+## Testing
 
 Instructions for running tests.
 
