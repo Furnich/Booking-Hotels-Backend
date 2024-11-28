@@ -39,8 +39,8 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
     FastAPICache.init(RedisBackend(redis), prefix="cache")
     yield
 
-app = FastAPI(lifespan=lifespan)
 
+app = FastAPI(lifespan=lifespan)
 
 
 app.include_router(router_users)
@@ -79,10 +79,6 @@ async def add_process_time_header(request: Request, call_next):
 app = VersionedFastAPI(app,
     version_format='{major}',
     prefix_format='/v{major}',
-    #description='Greet users with a nice message',
-    #middleware=[
-    #    Middleware(SessionMiddleware, secret_key='mysecretkey')
-    #]
 )
 
 instrumentator = Instrumentator(

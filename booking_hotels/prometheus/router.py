@@ -9,7 +9,7 @@ router = APIRouter(
     tags=["Тестирование Granfa + Prometheus"]
 )
 
-
+# Данные роутер сделаны для теста Prometheus'а
 @router.get("/get_error")
 def get_error():
     try:

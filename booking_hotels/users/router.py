@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, Response
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 
 from booking_hotels.exception import (
     IncorrectEmailOrPasswordException,
@@ -18,6 +19,8 @@ router = APIRouter(
     prefix="",
     tags=["Auth & Пользователи"]
 )
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
+
 
 @router.post("/auth/register")
 async def register_user(user_data:SUserRegister):
@@ -29,18 +32,17 @@ async def register_user(user_data:SUserRegister):
 
 
 @router.post("/auth/login")
-async def login_user(response:Response, user_data:SUserAuth):
-    user = await authenticate_user(user_data.email,user_data.password)
+async def login_user(form_data: OAuth2PasswordRequestForm = Depends()):
+    user = await authenticate_user(form_data.username,form_data.password)
     if not user:
         raise IncorrectEmailOrPasswordException
     access_token = create_acces_token({"sub":str(user.id)})
-    response.set_cookie("booking_access_token", access_token, httponly=True)
-    return access_token
+    return {"access_token": access_token, "token_type": "bearer"}
 
 
 @router.post("/user/logout")
 async def logout_user(response: Response):
-    response.delete_cookie("booking_access_token")
+    return {"msg": "Вы успешно вышли"}
 
 @router.get("/user/me")
 async def read_users_me(current_user: Users = Depends(get_current_user)):
