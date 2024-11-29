@@ -13,7 +13,7 @@ from booking_hotels.users.auth import (
 from booking_hotels.users.dao import UsersDAO
 from booking_hotels.users.dependencies import get_current_user
 from booking_hotels.users.models import Users
-from booking_hotels.users.schemas import SUserAuth, SUserRegister
+from booking_hotels.users.schemas import SUserRegister
 
 router = APIRouter(
     prefix="",
@@ -28,7 +28,7 @@ async def register_user(user_data:SUserRegister):
     if existing_user:
         raise UserAlreadyExistsException
     hashed_password = get_password_hash(user_data.password)
-    await UsersDAO.add(email=user_data.email,hashed_password=hashed_password)
+    await UsersDAO.add(email=user_data.email,hashed_password=hashed_password,Full_name=user_data.Full_name)
 
 
 @router.post("/auth/login")
@@ -37,7 +37,8 @@ async def login_user(form_data: OAuth2PasswordRequestForm = Depends()):
     if not user:
         raise IncorrectEmailOrPasswordException
     access_token = create_acces_token({"sub":str(user.id)})
-    return {"access_token": access_token, "token_type": "bearer"}
+    welcome = f'Добро пожаловать {user.Full_name}'
+    return {"msg":welcome ,"access_token": access_token, "token_type": "bearer"}
 
 
 @router.post("/user/logout")
