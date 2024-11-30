@@ -16,7 +16,7 @@ else:
 engine = create_async_engine(DATABASE_URL, **DATABASE_PARAMS)
 
 
-async_sesion_maker = sessionmaker(
+async_session_maker = sessionmaker(
     bind=engine, # type: ignore
     class_=AsyncSession,
     expire_on_commit=False,

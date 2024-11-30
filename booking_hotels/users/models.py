@@ -9,7 +9,8 @@ class Users(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
     email = Column(String, nullable=False, unique=True)
-    Full_name = Column(String, nullable=False)
+    First_name = Column(String, nullable=False)
+    Last_name = Column(String, nullable=False)
     hashed_password = Column(String, nullable=False)
 
     booking = relationship("Bookings", back_populates="user")

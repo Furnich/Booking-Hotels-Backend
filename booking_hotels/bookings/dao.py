@@ -8,7 +8,7 @@ from booking_hotels.logger import logger
 from booking_hotels.bookings.models import Bookings
 from booking_hotels.bookings.schemas import BookingAdapter
 from booking_hotels.dao.base import BaseDAO
-from booking_hotels.database import async_sesion_maker
+from booking_hotels.database import async_session_maker
 from booking_hotels.exception import HaveNoBooking
 from booking_hotels.hotels.rooms.models import Rooms
 
@@ -27,7 +27,7 @@ class BookingDAO(BaseDAO):
 
         booking_adapter = BookingAdapter()
         try:
-            async with async_sesion_maker() as session:  # type: ignore # type: ignore
+            async with async_session_maker() as session:  # type: ignore # type: ignore
                 booked_rooms = (
                     select(Bookings)
                     .where(
@@ -109,7 +109,7 @@ class BookingDAO(BaseDAO):
 
     @classmethod
     async def DeleteB(cls, booking_id: int, user_id: int):
-        async with async_sesion_maker() as session: # type: ignore
+        async with async_session_maker() as session: # type: ignore
             bookings = await session.execute(
                 select(Bookings).where(Bookings.user_id == user_id)
             )

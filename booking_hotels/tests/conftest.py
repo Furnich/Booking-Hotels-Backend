@@ -7,7 +7,7 @@ from sqlalchemy import insert
 
 from booking_hotels.bookings.models import Bookings
 from booking_hotels.config import settings
-from booking_hotels.database import Base, async_sesion_maker, engine
+from booking_hotels.database import Base, async_session_maker, engine
 from booking_hotels.hotels.models import Hotels
 from booking_hotels.hotels.rooms.models import Rooms
 from booking_hotels.main import app
@@ -37,7 +37,7 @@ async def prepare_database():
         booking.pop("total_cost", None)
         booking.pop("total_days", None)
 
-    async with async_sesion_maker() as session:
+    async with async_session_makerr() as session:
         await session.execute(insert(Hotels).values(hotels))
         await session.execute(insert(Rooms).values(rooms))
         await session.execute(insert(Users).values(users))
@@ -49,7 +49,7 @@ async def prepare_database():
 
 @pytest_asyncio.fixture(scope="function")
 async def session():
-    async with async_sesion_maker() as session:
+    async with async_session_maker() as session:
         yield session
 
 @pytest_asyncio.fixture(scope="function")

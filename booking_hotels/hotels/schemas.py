@@ -1,4 +1,3 @@
-
 from pydantic import BaseModel
 from sqlalchemy.dialects.postgresql import JSONB
 
@@ -13,3 +12,13 @@ class SHotels(BaseModel):
 
     class config:
         orm_mode = True 
+
+
+class SReviews(BaseModel):
+    id:int
+    hotel_id:int
+    user_id:int
+    first_name:str
+    last_name:str
+    rating:int
+    text:str

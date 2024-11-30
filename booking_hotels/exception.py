@@ -42,3 +42,8 @@ HaveNoHotels = HTTPException(
     status_code=status.HTTP_204_NO_CONTENT,
     detail="Нет свободных отелей или нет отелей с такими данными"
 )
+
+IncorrectDetailsOfHotel = HTTPException(
+    status_code=status.HTTP_204_NO_CONTENT,
+    detail="Неверенные данные отеля или такого отеля не существует"
+)

@@ -7,7 +7,7 @@ from sqlalchemy import and_, func, or_, select
 
 from booking_hotels.bookings.models import Bookings
 from booking_hotels.dao.base import BaseDAO
-from booking_hotels.database import async_sesion_maker
+from booking_hotels.database import async_session_maker
 from booking_hotels.hotels.rooms.models import Rooms
 
 
@@ -46,10 +46,10 @@ class RoomsDAO(BaseDAO):
         """
 
     # Преобразование дат в объекты datetime
-        date_from = datetime.fromisoformat(date_from)
-        date_to = datetime.fromisoformat(date_to)
+        date_from = datetime.fromisoformat(date_from) # type: ignore
+        date_to = datetime.fromisoformat(date_to) # type: ignore
 
-        async with async_sesion_maker() as session:
+        async with async_session_maker() as session: # type: ignore
             rooms = await session.execute(select(Rooms).filter_by(hotel_id=hotel_id))
             rooms = rooms.scalars().all()
 
@@ -68,7 +68,7 @@ class RoomsDAO(BaseDAO):
                 # Подсчет оставшихся номеров
                 rooms_left = room.quantity - len(bookings)
                 # Подсчет стоимости бронирования
-                total_cost = room.price * (date_to - date_from).days
+                total_cost = room.price * (date_to - date_from).days # type: ignore
 
                 # Создание словаря с данными номера
                 room_data = {

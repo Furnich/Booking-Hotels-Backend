@@ -1,14 +1,17 @@
 
 from datetime import datetime
 
-from sqlalchemy import and_, func, select
+
+from sqlalchemy import  func, select
 
 from booking_hotels.bookings.models import Bookings
 from booking_hotels.dao.base import BaseDAO
-from booking_hotels.database import async_sesion_maker
-from booking_hotels.exception import HaveNoHotels
-from booking_hotels.hotels.models import Hotels
+from booking_hotels.database import async_session_maker
+from booking_hotels.exception import HaveNoHotels, IncorrectDetailsOfHotel
+from booking_hotels.hotels.models import Hotels, Reviews
 from booking_hotels.hotels.rooms.models import Rooms
+
+from booking_hotels.users.models import Users
 
 
 class HotelDAO(BaseDAO): 
@@ -25,7 +28,7 @@ class HotelDAO(BaseDAO):
     date_from: str,
     date_to: str
 ): 
-        async with async_sesion_maker() as session: # type: ignore
+        async with async_session_maker() as session: # type: ignore
             # Получаем id отелей по местоположению
             hotels_ids = select(Hotels.id).where(Hotels.location.ilike(f"%{location}%"))
             hotels_ids = await session.execute(hotels_ids)
@@ -33,7 +36,7 @@ class HotelDAO(BaseDAO):
 
             # Если нет отелей, возвращаем пустой список
             if not hotels_ids:
-                return HaveNoHotels
+                raise HaveNoHotels
 
             # Получаем отели по их id
             hotels = await session.execute(select(Hotels).where(Hotels.id.in_(hotels_ids)))
@@ -83,12 +86,45 @@ class HotelDAO(BaseDAO):
         cls,
         hotel_id:int
         ):
-        async with async_sesion_maker() as session: # type: ignore
+        async with async_session_maker() as session: # type: ignore
             hotel=select(Hotels).where(Hotels.id==hotel_id)
             hotel = await session.execute(hotel)
             hotel= hotel.mappings().all()
 
             if not hotel:
-                return HaveNoHotels
+                raise IncorrectDetailsOfHotel
 
             return hotel
+    
+    @classmethod
+    async def post_review(
+        cls,
+        hotel_id:int,
+        rating: int,
+        text: str,
+        user:Users,
+    ):
+        '''
+        Эта функция позволяет оставлять отзывы об отелях
+        '''
+        async with async_session_maker() as session: # type: ignore
+            try:
+            
+                hotel = await HotelDAO.current_hotel(hotel_id)
+            
+            except IncorrectDetailsOfHotel as e: # type: ignore
+                raise e
+        
+            new_review = Reviews(
+                hotel_id = hotel_id,
+                user_id = user.id,
+                first_name = user.First_name,
+                last_name = user.Last_name,
+                rating = rating,
+                text = text,
+            )
+            
+            session.add(new_review)
+            await session.commit()
+
+            return new_review
