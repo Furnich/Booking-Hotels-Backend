@@ -1,9 +1,7 @@
-
-
-from datetime import date, datetime
+from datetime import datetime
 
 from fastapi import Query
-from sqlalchemy import and_, func, or_, select
+from sqlalchemy import select
 
 from booking_hotels.bookings.models import Bookings
 from booking_hotels.dao.base import BaseDAO
@@ -45,7 +43,7 @@ class RoomsDAO(BaseDAO):
             - rooms_left: Количество оставшихся номеров.
         """
 
-    # Преобразование дат в объекты datetime
+
         date_from = datetime.fromisoformat(date_from) # type: ignore
         date_to = datetime.fromisoformat(date_to) # type: ignore
 
@@ -53,10 +51,9 @@ class RoomsDAO(BaseDAO):
             rooms = await session.execute(select(Rooms).filter_by(hotel_id=hotel_id))
             rooms = rooms.scalars().all()
 
-            # Подготовка результата
             result = []
+            
             for room in rooms:
-                # Подсчет бронирований в заданный период
                 bookings = await session.execute(
                     select(Bookings).filter(
                         Bookings.room_id == room.id,
@@ -65,12 +62,11 @@ class RoomsDAO(BaseDAO):
                     )
                 )
                 bookings = bookings.scalars().all()
-                # Подсчет оставшихся номеров
+
                 rooms_left = room.quantity - len(bookings)
-                # Подсчет стоимости бронирования
+
                 total_cost = room.price * (date_to - date_from).days # type: ignore
 
-                # Создание словаря с данными номера
                 room_data = {
                     "id": room.id,
                     "hotel_id": room.hotel_id,
@@ -88,3 +84,6 @@ class RoomsDAO(BaseDAO):
             return result
 
 
+"""
+в ЬД нет таблицы ревьюсь
+"""

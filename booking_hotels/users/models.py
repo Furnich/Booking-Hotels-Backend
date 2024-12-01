@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import relationship
 
@@ -17,3 +18,8 @@ class Users(Base):
 
     def __str__(self):
         return f"Пользователь {self.email}"
+    
+
+@dataclass
+class TokenData():
+    username: str

@@ -11,7 +11,7 @@ from booking_hotels.users.auth import (
     get_password_hash,
 )
 from booking_hotels.users.dao import UsersDAO
-from booking_hotels.users.dependencies import get_current_user, get_token
+from booking_hotels.users.dependencies import get_current_user
 from booking_hotels.users.models import Users
 from booking_hotels.users.schemas import SUserRegister
 
@@ -20,7 +20,6 @@ router = APIRouter(
     tags=["Auth & Пользователи"]
 )
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
-
 
 @router.post("/auth/register")
 async def register_user(user_data:SUserRegister):

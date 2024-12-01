@@ -1,8 +1,9 @@
 
 from datetime import datetime, timezone
 
-from fastapi import Depends, Request
+from fastapi import Depends, Header, Request
 from jose import JWTError, jwt
+import logging
 
 from booking_hotels.config import settings
 from booking_hotels.exception import (
@@ -13,21 +14,29 @@ from booking_hotels.exception import (
 )
 from booking_hotels.users.dao import UsersDAO
 
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-def get_token(request: Request):
-    auth_header = request.headers.get("Authorization")
-    if not auth_header:
+async def get_token(authorization: str = Header(None)):
+    print(f"Authorization header: {authorization}")
+    if authorization is None:
         raise TokenAbsentException
-    
-    scheme, _, token = auth_header.partition(" ")
-    if scheme.lower() != "bearer" or not token:
-        raise IncorrectTokenFormatExcpetion
+
+    token = authorization.split(" ")[1] if " " in authorization else authorization
     return token
 
 async def get_current_user(token: str = Depends(get_token)):
+    from booking_hotels.users.auth import verify_token
+    try:
+        user = await verify_token(token)
+        return user
+    except Exception as e:
+        raise e
+
+'''
     try:
         payload = jwt.decode(
-            token, settings.SECRET_KEY, settings.ALGHORITHM
+            token, settings.SECRET_KEY, settings.ALGORITHM
         )
     except JWTError:
         raise IncorrectTokenFormatExcpetion
@@ -44,3 +53,4 @@ async def get_current_user(token: str = Depends(get_token)):
     if not user:
         raise UserIsNotPresent
     return user
+'''

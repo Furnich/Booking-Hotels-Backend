@@ -35,7 +35,7 @@ class Settings(BaseSettings):
         return f"postgresql+asyncpg://{values['TEST_DB_USER']}:{values['TEST_DB_PASS']}@{values['TEST_DB_HOST']}:{values['TEST_DB_PORT']}/{values['TEST_DB_NAME']}"
     
     SECRET_KEY: str
-    ALGHORITHM: str
+    ALGORITHM: str
 
     SMTP_HOST: str
     SMTP_PORT: int

@@ -47,3 +47,9 @@ IncorrectDetailsOfHotel = HTTPException(
     status_code=status.HTTP_204_NO_CONTENT,
     detail="Неверенные данные отеля или такого отеля не существует"
 )
+
+CannotContainUsername = HTTPException(
+    status_code=status.HTTP_401_UNAUTHORIZED,
+    detail="Token does not contain username",
+    headers={"WWW-Authenticate": "Bearer"},
+)
