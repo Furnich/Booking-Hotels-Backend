@@ -8,7 +8,7 @@ from pydantic import EmailStr
 from booking_hotels.config import settings
 from booking_hotels.users.dao import UsersDAO
 from booking_hotels.users.models import TokenData
-from booking_hotels.exception import CannotContainUsername, TokenExpiredException
+from booking_hotels.exception import CannotContainUsername
 
 pwd_context = CryptContext(schemes=["bcrypt"],deprecated="auto")
 
@@ -27,6 +27,10 @@ def create_acces_token(data: dict) -> str:
         to_encode, settings.SECRET_KEY, settings.ALGORITHM
     )
     return encoded_jwt
+
+"""
+ТОКЕН формата Authorization Header ПЕРЕДАЕТСЯ ИЗ СЕРВЕРА В ЗАГОЛОВОК HTTP-ЗАПРОС (ДАЛЕЕ РАБОТА ФРОНТЕНДЕРА)
+"""
 
 async def verify_token(token: str) -> TokenData:
     try:

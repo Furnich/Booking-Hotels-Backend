@@ -38,11 +38,16 @@ async def login_user(form_data: OAuth2PasswordRequestForm = Depends()):
     access_token = create_acces_token({"sub":str(user.id)})
     welcome = f'Добро пожаловать {user.First_name} {user.Last_name}'
     return {"msg":welcome ,"access_token": access_token, "token_type": "bearer"}
-
+"""
+ТОКЕН формата Authorization Header ПЕРЕДАЕТСЯ ИЗ СЕРВЕРА (ДАЛЕЕ РАБОТА ФРОНТЕНДЕРА)
+"""
 
 @router.post("/user/logout")
 async def logout_user(response: Response):
     return {"msg": "Вы успешно вышли"}
+"""
+ТОКЕН формата Authorization Header DEV ДОЛЖЕН УДАЛИТЬ ТОКЕН ИЗ ЗАГОЛОВКА (ДАЛЕЕ РАБОТА ФРОНТЕНДЕРА)
+"""
 
 @router.get("/user/me")
 async def read_users_me(current_user: Users = Depends(get_current_user)):
