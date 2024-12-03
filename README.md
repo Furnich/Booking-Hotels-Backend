@@ -209,7 +209,7 @@ THE USER'S TOKEN, IN THE Authorization Header FORMAT, MUST BE TRANSFERRED TO THE
 
 ### Instructions for the tests
 
-Service [Postman](https://www.postman.com /)
+Service [Postman](https://www.postman.com)
 1. Create a POST request for login by URL http://127.0.0.1:7777/v1/auth/register the
 transfer is in the key format:value
  email:mail
