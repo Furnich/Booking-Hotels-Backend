@@ -20,8 +20,6 @@
 
 • Возможность фильтрации и сортировки отелей по различным параметрам (цене, рейтингу и т.д.)
 
-• Интеграция с платежными системами для обработки транзакций
-
 • Расширенные возможности управления пользователями и их профилями
 
 • Улучшение интерфейса фронтенда для более удобного взаимодействия
@@ -45,6 +43,8 @@
 • Импорт CSV файлов для добавления их в БД
 
 • Тестирование Granfa + Prometheus
+
+• Интеграция с платежными системами для обработки транзакций
 
 ## Технологии
 
@@ -87,14 +87,31 @@ docker comopse up --build
 
 ## Тесты
 
-Инструкции по запуску тестов.
+### ВАЖНО!!!
 
-В проекте осуществляются тесты с помощью pytest. Для запуска теста используется:
-```
-pytest
-```
+ДЛЯ ТЕСТИРОВАНИЯ API РЕКОМЕНДУЕТСЯ ИСПОЛЬЗОВАТЬ СЕРВИС ДЛЯ ТЕСТИРОВАНИ API, К ПРИМЕРУ POSTMAN
+ТОКЕН ПОЛЬЗОВАТЕЛЯ, ФОРМАТА Authorization Header, ДОЛЖЕН ПЕРЕДОВАТЬСЯ В ЗАГОЛОВОК
 
+### Инструкция к тестам
 
+Сервис [Postman](https://www.postman.com/)
+1. Создаете POST-запрос на логин по URL http://127.0.0.1:7777/v1/auth/register
+   передача идет в формате key:value
+   email:почта
+   First_name:Иия
+   Last_name:фамилия
+   email:пароль
+
+   вовзращается Null далее идет логин(п.2)
+   
+2. Создаете POST-запрос на логин по URL http://127.0.0.1:7777/v1/auth/login 
+   передача идет в формате key:value
+   username:почта
+   password:пароль
+
+   вам передается сообщение с токеном
+   далее вы создаете запросы, вставляя в keys 'Athourization header', а в Value ' {токен} bearer ' 
+   
 # English
 
 ## Contents
@@ -117,8 +134,6 @@ The project will be continually enhanced and improved as I learn new methods and
 
 • The ability to filter and sort hotels by various parameters (price, rating, etc.)
 
-• Integration with payment systems for transaction processing
-
 • Extended user management features and profiles
 
 • Improvement of the frontend interface for more user-friendly interaction
@@ -135,12 +150,15 @@ The project will be continually enhanced and improved as I learn new methods and
 
 • View available rooms
 
+• Feedback system
+
 • Upload images for hotels
 
 • Import CSV files to add data to the database
 
 • Testing with Granfa + Prometheus
 
+• Integration with payment systems for transaction processing
 ## Technologies
 
 • Programming Language: [Python]
@@ -184,9 +202,27 @@ to switch to the API: http://localhost:7777/docs/
 
 ## Testing
 
-Instructions for running tests.
+### IMPORTANT!!!
 
-The project uses pytest for testing. To run the tests, use:
-```
-pytest
-```
+TO TEST THE API, IT IS RECOMMENDED TO USE THE API TESTING SERVICE, FOR EXAMPLE POSTMAN
+THE USER'S TOKEN, IN THE Authorization Header FORMAT, MUST BE TRANSFERRED TO THE HEADER
+
+### Instructions for the tests
+
+Service [Postman](https://www.postman.com /)
+1. Create a POST request for login by URL http://127.0.0.1:7777/v1/auth/register the
+transfer is in the key format:value
+ email:mail
+ First_name:first name
+ Last_name:last name
+email:password
+
+ Null is returned, followed by the login (item 2)
+
+2. Create a POST request for login by URL http://127.0.0.1:7777/v1/auth/login 
+ the transfer is in the key format:value
+ username:mail
+ password:password
+
+ a message with a token
+is sent to you, then you create requests by inserting an 'Athourization header' into keys, and 'Value' {token} bearer '
