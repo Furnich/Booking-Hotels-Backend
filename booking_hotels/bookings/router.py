@@ -24,6 +24,12 @@ model_adapter = TypeAdapter(SBookings)
 async def get_bookings(
     user: Users = Depends(get_current_user),
 ):  # -> list([SBookings]):
+    """
+    Функция на получение всех букингов пользователя
+
+    :params user: Получение данных юзера функцией get_current_user
+    :return: список букингов
+    """
     return await BookingDAO.find_all(user_id=user.id)
 
 
@@ -35,6 +41,16 @@ async def add_booking(
     date_to: date,
     user: Users = Depends(get_current_user),
 ):
+    """
+    Функция добавляет букинг и одновременно проверяет, на возможность
+    бронирования номерв
+    
+    :param room_id: ID номера
+    :param date_from: Дата заезда
+    :param date_to: Дата выезда
+    :params user: Получение данных юзера функцией get_current_user
+    :result: данные о бронирование
+    """
     booking = await BookingDAO.add_booking(room_id, date_from, date_to, user.id) # type: ignore
 
     if not booking:
@@ -49,5 +65,15 @@ async def add_booking(
 
 @router.delete("/{booking_id}")
 @version(1)
-async def delete_bookings(booking_id: int, user: Users = Depends(get_current_user)):
+async def delete_bookings(
+    booking_id: int,
+    user: Users = Depends(get_current_user)
+    ):
+    """
+    Функция удаляет букинг
+    
+    :param booking_id: ID букинга
+    :params user: Получение данных юзера функцией get_current_user
+    "return" None или ошибку
+    """
     return await BookingDAO.DeleteB(booking_id, user.id) # type: ignore

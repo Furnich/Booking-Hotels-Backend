@@ -1,6 +1,6 @@
 from typing import Literal
 
-from pydantic import ConfigDict, PostgresDsn, ValidationInfo, field_validator
+from pydantic import ConfigDict, ValidationInfo, field_validator
 from pydantic_settings import BaseSettings
 
 
@@ -34,6 +34,9 @@ class Settings(BaseSettings):
         values = info.data
         return f"postgresql+asyncpg://{values['TEST_DB_USER']}:{values['TEST_DB_PASS']}@{values['TEST_DB_HOST']}:{values['TEST_DB_PORT']}/{values['TEST_DB_NAME']}"
     
+    CLOUDPAYMENTS_API_KEY: str
+
+
     SECRET_KEY: str
     ALGORITHM: str
 

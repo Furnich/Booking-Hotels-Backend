@@ -24,6 +24,18 @@ class BookingDAO(BaseDAO):
         date_to: date,
         user_id: int,
     ):
+        """
+        Создание и добавление Букинга в Бд
+
+        В функции проверяется наличие номера на период, указанный пользователем.
+        Проверяется путем подсчета кол-ва букингов задевающих этот период и 
+        Вычитанием этого кол-ва из кол-ва Доступных номеров.
+        :param room_id: Id номера.
+        :param date_from: Дата Заезда.
+        :param date_to: Дата Выезда.
+        :param user_id: ID пользователя.
+        :return: Возвращается Тело букинга.
+        """
 
         booking_adapter = BookingAdapter()
         try:
@@ -109,6 +121,13 @@ class BookingDAO(BaseDAO):
 
     @classmethod
     async def DeleteB(cls, booking_id: int, user_id: int):
+        """
+        Функция на удаления букинга.
+
+        :params booking_id: Id букинга 
+        :params user_id: Id пользователя 
+        "return" None или ошибку
+        """
         async with async_session_maker() as session: # type: ignore
             bookings = await session.execute(
                 select(Bookings).where(Bookings.user_id == user_id)

@@ -28,6 +28,14 @@ class HotelDAO(BaseDAO):
     date_from: str,
     date_to: str
 ): 
+        """
+        Функция ищет отели подходящие под определенные критерии(в будущем могут меняться)
+
+        :param location: Местоположение отеля
+        :param data_from: дата въезда
+        :param data_to: дата выезда
+        :result: возрвращает подходящие отели или ошибку
+        """
         async with async_session_maker() as session: # type: ignore
             # Получаем id отелей по местоположению
             hotels_ids = select(Hotels.id).where(Hotels.location.ilike(f"%{location}%"))
@@ -86,6 +94,12 @@ class HotelDAO(BaseDAO):
         cls,
         hotel_id:int
         ):
+        """
+        Функция ищет Конкретный отель по его ID
+
+        :param hotel_id: Id отеля
+        :return: Возвращает найденный отель или ошибку
+        """
         async with async_session_maker() as session: # type: ignore
             hotel=select(Hotels).where(Hotels.id==hotel_id)
             hotel = await session.execute(hotel)
@@ -105,7 +119,13 @@ class HotelDAO(BaseDAO):
         user:Users,
     ):
         '''
-        Эта функция позволяет оставлять отзывы об отелях
+        Функция, которая позволяет оставлять отзывы
+
+        :param hotel_id: Id отеля, на который будет писаться отзыв
+        :param raiting: рейтинг 1-5
+        :param text: текс отзыва
+        :params user: Получение данных юзера функцией get_current_user
+        :return: Возвращается отзыв
         '''
         async with async_session_maker() as session: # type: ignore
             try:
